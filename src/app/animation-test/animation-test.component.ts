@@ -9,6 +9,7 @@ import {
   trigger,
   useAnimation
 } from "@angular/animations";
+import {TimelineLite, TimelineMax} from 'gsap';
 
 @Component({
   selector: 'app-animation-test',
@@ -43,6 +44,7 @@ export class AnimationTestComponent implements OnInit {
   ) { }
   isOpen = false;
   value = 1;
+  tl = new TimelineLite();
 
   animationDefinition = animation([
     style({
@@ -57,8 +59,16 @@ export class AnimationTestComponent implements OnInit {
   ]);
 
   @ViewChild('divRef', {static: true}) refAng: ElementRef;
+  @ViewChild('divRefTwo', {static: true}) refGS: ElementRef;
 
   ngOnInit() {
+  }
+
+  onKeyDynamic(e) {
+    if (!isNaN(e.target.value)) {
+      this.value = e.target.value;
+      this.playGSAPAnimation();
+    }
   }
 
   onKey(e) {
@@ -104,12 +114,15 @@ export class AnimationTestComponent implements OnInit {
 
   playGSAPAnimation() {
 
+    const tlMax = new TimelineMax();
+    tlMax.from(this.refGS.nativeElement, 0, {x: 0, ease: `none`}, 0);
+    tlMax.to(this.refGS.nativeElement, 5, {x: this.value, ease: `none`}, 0);
+    tlMax.play();
+
+    // this.tl.to(this.refGS.nativeElement, {x: this.value, duration: 5000});
+    //
+    // this.tl.play();
   }
-
-
-
-
-
 
 
 }

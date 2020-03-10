@@ -1,4 +1,7 @@
+<span>static</span>
 <input (keyup)="onKey($event)">
+<span>dynamic</span>
+<input (keyup)="onKeyDynamic($event)">
 <span>{{value}}</span>
 <br>
 <button (click)="playAngularAnimation()">Angular Animation</button>
@@ -6,7 +9,8 @@
 <button (click)="playGSAPAnimation()">GSAP Animation</button>
 
 <br>
-<div #divRef >someContent</div>
+<div class="el"  #divRef >someContent</div>
+<div class="el" #divRefTwo id="divRefTwo">someContent</div>
 
 <br>
 <button class="delete" (click)="deleteAngularElement()">Delete element bound to Angular animation</button>
