@@ -1,0 +1,36 @@
+.colorBox {
+  height: 100px;
+  width: 100px;
+  font-size: 30px;
+  font-weight: bold;
+  background-color: blue;
+  animation: marquee 5s linear infinite, flash 5s infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(1000%, 0, 0);
+    transition-timing-function: linear;
+    will-change: transform;
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+    transition-timing-function: linear;
+    will-change: transform;
+  }
+}
+
+@keyframes flash {
+  0% {
+    background-color: blue;
+  }
+
+  100% {
+    background-color: red;
+  }
+}
+
+.boxComponent {
+  width: 1000px;
+  background-color: burlywood;
+}

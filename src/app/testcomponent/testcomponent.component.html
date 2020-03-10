@@ -1,0 +1,7 @@
+<p *ngFor="let content of contents">{{content}}</p>
+
+<div class="boxComponent">
+  <p #box [ngStyle]="customStyles" class="colorBox">HELLO WORLD</p>
+</div>
+
+<p *ngFor="let content of contents2">{{content.content}}</p>

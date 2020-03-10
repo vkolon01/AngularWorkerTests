@@ -4,14 +4,22 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TestcomponentComponent } from './testcomponent/testcomponent.component';
+import { AnimationTestComponent } from './animation-test/animation-test.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { EmptyComponentComponent } from './empty-component/empty-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestcomponentComponent
+    TestcomponentComponent,
+    AnimationTestComponent,
+    NavbarComponent,
+    EmptyComponentComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule
   ],
   providers: [],
