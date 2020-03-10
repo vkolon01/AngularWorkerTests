@@ -1,9 +1,12 @@
+<input (keyup)="onKey($event)">
+<span>{{value}}</span>
+<br>
 <button (click)="playAngularAnimation()">Angular Animation</button>
 <button (click)="playAngularAnimationExtra()">Angular Animation x 1000</button>
 <button (click)="playGSAPAnimation()">GSAP Animation</button>
 
-<div class="delete">
-<button (click)="deleteAngularElement()">Delete element bound to Angular animation</button>
-</div>
-
+<br>
 <div #divRef >someContent</div>
+
+<br>
+<button class="delete" (click)="deleteAngularElement()">Delete element bound to Angular animation</button>

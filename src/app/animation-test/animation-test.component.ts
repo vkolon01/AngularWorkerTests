@@ -42,16 +42,16 @@ export class AnimationTestComponent implements OnInit {
     private _builder: AnimationBuilder,
   ) { }
   isOpen = false;
+  value = 1;
 
   animationDefinition = animation([
     style({
       transform: 'translateX(0)',
       opacity: '1'
     }),
-    animate('{{duration}}ms',
+    animate('5000ms',
       style({
-        transform: 'translateX(-30px)',
-        opacity: '0'
+        transform: 'translateX({{distance}}px)',
       })
     )
   ]);
@@ -61,11 +61,17 @@ export class AnimationTestComponent implements OnInit {
   ngOnInit() {
   }
 
+  onKey(e) {
+    if (!isNaN(e.target.value)) {
+      this.value = e.target.value;
+    }
+  }
+
   playAngularAnimation() {
 
     const options = {
       params: {
-        duration: 1000
+        distance: this.value
       }
     };
     const animationFactory = this._builder.build(useAnimation(this.animationDefinition, options));
@@ -80,7 +86,7 @@ export class AnimationTestComponent implements OnInit {
     for (let i = 0; i < 1000; i ++) {
       const options = {
         params: {
-          duration: 1000
+          distance: this.value
         }
       };
       const animationFactory = this._builder.build(useAnimation(this.animationDefinition, options));
