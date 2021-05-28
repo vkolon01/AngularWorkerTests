@@ -8,6 +8,7 @@ import { AnimationTestComponent } from './animation-test/animation-test.componen
 import { NavbarComponent } from './navbar/navbar.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { EmptyComponentComponent } from './empty-component/empty-component.component';
+import { TextContentComponent } from './text-content/text-content.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { EmptyComponentComponent } from './empty-component/empty-component.compo
     TestcomponentComponent,
     AnimationTestComponent,
     NavbarComponent,
-    EmptyComponentComponent
+    EmptyComponentComponent,
+    TextContentComponent
   ],
   imports: [
     BrowserModule,

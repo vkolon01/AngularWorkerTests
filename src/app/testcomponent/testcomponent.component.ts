@@ -29,7 +29,7 @@ export class TestcomponentComponent implements OnInit, AfterViewInit {
       this.contents2.push({content: 'init'});
     }
     this.contents.forEach((content, i) => {
-      // this.startJoeWorker(10, i);
+      this.startJoeWorker(10, i);
     });
 
     this.contents2.forEach((content, i) => {
@@ -48,10 +48,9 @@ export class TestcomponentComponent implements OnInit, AfterViewInit {
   }
 
   startArthurWorker(i) {
-    this.serv.getArthurResponse(i)
+    this.serv.getArthurResponse(i, i)
       .then(res => {
         this.contents2[i].content = res;
-        this.startArthurWorker(++i);
       });
   }
 

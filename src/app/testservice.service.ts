@@ -23,7 +23,7 @@ export class TestserviceService {
     });
   }
 
-  getArthurResponse(c): Promise<string> {
+  getArthurResponse(num1, num2): Promise<string> {
     return new Promise(resolve => {
       const worker = new Worker('./arthur.worker', {type: 'module'});
 
@@ -31,7 +31,7 @@ export class TestserviceService {
         resolve(data);
       };
 
-      worker.postMessage(c);
+      worker.postMessage({num1, num2});
     });
   }
 

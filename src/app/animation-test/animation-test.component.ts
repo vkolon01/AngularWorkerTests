@@ -1,14 +1,14 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
   animate,
   animation,
-  AnimationBuilder,
+  AnimationBuilder, AnimationPlayer,
   state,
   style,
   transition,
   trigger,
   useAnimation
-} from "@angular/animations";
+} from '@angular/animations';
 import {TimelineLite, TimelineMax} from 'gsap';
 
 @Component({
@@ -37,20 +37,18 @@ import {TimelineLite, TimelineMax} from 'gsap';
   ],
 })
 
-export class AnimationTestComponent implements OnInit {
+export class AnimationTestComponent implements OnInit, OnDestroy {
 
   constructor(
     private _builder: AnimationBuilder,
   ) { }
-  isOpen = false;
+  timeline;
+  timeline2;
   value = 1;
   tl = new TimelineLite();
+  player: AnimationPlayer;
 
   animationDefinition = animation([
-    style({
-      transform: 'translateX(0)',
-      opacity: '1'
-    }),
     animate('5000ms',
       style({
         transform: 'translateX({{distance}}px)',
@@ -58,10 +56,25 @@ export class AnimationTestComponent implements OnInit {
     )
   ]);
 
+  myInterval;
+
   @ViewChild('divRef', {static: true}) refAng: ElementRef;
   @ViewChild('divRefTwo', {static: true}) refGS: ElementRef;
 
   ngOnInit() {
+    this.myInterval = setInterval(() => {
+      this.value = this.value === 1 ? 100 : 1;
+      this.playAngularAnimation();
+      // this.playAngularAnimation();
+    }, 100);
+  }
+
+  ngOnDestroy(): void {
+    this.killTimeline();
+
+    if (this.myInterval) {
+      clearInterval(this.myInterval);
+    }
   }
 
   onKeyDynamic(e) {
@@ -69,6 +82,13 @@ export class AnimationTestComponent implements OnInit {
       this.value = e.target.value;
       this.playGSAPAnimation();
     }
+  }
+
+  killAngularAnimation() {
+    try {
+      this.player.destroy();
+      this.player = null;
+    } catch (e){}
   }
 
   onKey(e) {
@@ -85,10 +105,19 @@ export class AnimationTestComponent implements OnInit {
       }
     };
     const animationFactory = this._builder.build(useAnimation(this.animationDefinition, options));
-    let player;
     if (animationFactory) {
-      player = animationFactory.create(this.refAng.nativeElement);
-      player.play();
+
+      if (this.player) {
+        this.killAngularAnimation();
+      }
+
+      this.player = animationFactory.create(this.refAng.nativeElement);
+      try {
+        this.player.play();
+        this.player.onDone(() => {
+          this.killAngularAnimation();
+        });
+      } catch (e) {}
     }
   }
 
@@ -108,21 +137,48 @@ export class AnimationTestComponent implements OnInit {
     }
   }
 
+  killTimeline() {
+    if (this.timeline) {
+      this.timeline.kill();
+      this.timeline = null;
+    }
+  }
+  deleteGSAPElement() {
+    this.refGS.nativeElement.remove();
+  }
   deleteAngularElement() {
     this.refAng.nativeElement.remove();
   }
 
   playGSAPAnimation() {
-
-    const tlMax = new TimelineMax();
-    tlMax.from(this.refGS.nativeElement, 0, {x: 0, ease: `none`}, 0);
-    tlMax.to(this.refGS.nativeElement, 5, {x: this.value, ease: `none`}, 0);
-    tlMax.play();
-
-    // this.tl.to(this.refGS.nativeElement, {x: this.value, duration: 5000});
-    //
-    // this.tl.play();
+    this.killTimeline();
+    this.timeline = new TimelineMax();
+    this.timeline.from(this.refGS.nativeElement, 0, {x: 0, ease: `none`}, 0);
+    this.timeline.to(this.refGS.nativeElement, 5, {x: this.value, ease: `none`}, 0);
+    this.timeline.play();
   }
 
+  playGSAPAnimation2() {
+    if (this.timeline2) {
+      this.timeline2.seek(0);
+      this.timeline2.play();
+    } else {
+      this.timeline2 = new TimelineMax();
+      this.timeline2.to(this.refGS.nativeElement, 5, {y: 0, ease: `none`}, 0);
+      this.timeline2.to(this.refGS.nativeElement, 5, {y: this.value, ease: `none`}, 0);
+      this.timeline2.play();
+    }
+
+  }
+
+  playGSAPAnimationExtra() {
+    for (let i = 0; i < 1000; i ++) {
+      this.killTimeline();
+      this.timeline = new TimelineMax();
+      this.timeline.from(this.refGS.nativeElement, 0, {x: 0, ease: `none`}, 0);
+      this.timeline.to(this.refGS.nativeElement, 5, {x: this.value, ease: `none`}, 0);
+      this.timeline.play();
+    }
+  }
 
 }

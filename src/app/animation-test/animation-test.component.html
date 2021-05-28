@@ -7,10 +7,16 @@
 <button (click)="playAngularAnimation()">Angular Animation</button>
 <button (click)="playAngularAnimationExtra()">Angular Animation x 1000</button>
 <button (click)="playGSAPAnimation()">GSAP Animation</button>
+<button (click)="playGSAPAnimation2()">GSAP Animation 2</button>
+<button (click)="playGSAPAnimationExtra()">GSAP Animation x 1000</button>
 
 <br>
 <div class="el"  #divRef >someContent</div>
 <div class="el" #divRefTwo id="divRefTwo">someContent</div>
+<app-text-content *ngIf="value" [content]="value"></app-text-content>
 
 <br>
 <button class="delete" (click)="deleteAngularElement()">Delete element bound to Angular animation</button>
+<button class="delete" (click)="deleteGSAPElement()">Delete element bound to GSAP animation</button>
+<button class="delete" (click)="killTimeline()">Kill Animation</button>
+<button class="delete">dummy button</button>
